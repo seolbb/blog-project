@@ -1,0 +1,118 @@
+/* 기본 스타일링 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.login-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer; /* 커서 스타일 추가 */
+}
+
+.post-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer; /* 커서 스타일 추가 */
+}
+
+.login-btn:hover {
+    background-color: #45a049;
+}
+
+.main {
+    display: block;
+}
+
+.post {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.post h2 {
+    margin-top: 0;
+}
+
+.post p {
+    margin-bottom: 0;
+}
+
+/* 드롭다운 스타일 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* 드롭다운을 오른쪽 정렬하여 화면을 넘어가지 않게 합니다 */
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px; /* 드롭다운 모서리를 둥글게 만듭니다 */
+    overflow: hidden; /* 드롭다운 내용이 잘리는 것을 방지합니다 */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: #333;
+    text-decoration: none;
+}
+
+/* 게시글 제목 링크 스타일 */
+.post h2 a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: black; /* 링크 색상을 원하는 색상으로 설정 */
+}
+
+.post h2 a:hover {
+    text-decoration: none; /* 마우스 호버 시 밑줄 표시 */
+}

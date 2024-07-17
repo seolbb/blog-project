@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Error - LionBlog</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<!-- 헤더 영역 -->
+<div class="header">
+    <div class="logo">LionBlog</div>
+</div>
+
+<div class="login-container">
+    <h2>로그인 실패</h2>
+    <p th:text="${error}"></p>
+    <a th:href="@{/loginform}">로그인</a>
+    <a th:href="@{/userregform}">회원가입</a>
+</div>
+</body>
+</html>

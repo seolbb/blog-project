@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info - LionBlog</title>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+</head>
+<body>
+<!-- 헤더 영역 -->
+<div class="header">
+    <div class="logo">LionBlog</div>
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/login}" class="login-btn">로그인</a>
+    </div>
+    <div sec:authorize="isAuthenticated()" class="dropdown">
+        <a class="login-btn" id="dropdownBtn"><span sec:authentication="name"></span></a>
+        <div class="dropdown-content" id="dropdownContent">
+            <a th:href="@{'/@' + ${#authentication.name}}">내 블로그로 이동</a>
+            <a th:href="@{/drafts}">임시저장 목록</a>
+            <a th:href="@{/logout}">로그아웃</a>
+        </div>
+    </div>
+</div>
+<div class="blog-container">
+    <h2><span sec:authentication="name"></span> 님의 회원정보</h2>
+    <div sec:authorize="isAuthenticated()">
+        <ul>
+            <li>사용자 이름 : <span th:text="${user.username}"></span></li>
+            <li>이메일 : <span th:text="${user.email}"></span></li>
+            <li>블로그 제목 : <span th:text="${user.blogTitle}"></span></li>
+        </ul>
+        <a th:href="@{/userupdateform}" class="action-btn">회원정보 수정</a>
+        <a th:href="@{/userdelete}" class="action-btn">회원 탈퇴</a>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+        <p>로그인 되지 않았습니다. </p> <a th:href="@{/login}">로그인</a>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownBtn = document.getElementById("dropdownBtn");
+        const dropdownContent = document.getElementById("dropdownContent");
+
+        dropdownBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+
+        window.addEventListener("click", function (event) {
+            if (!event.target.matches("#dropdownBtn") && !event.target.closest(".dropdown")) {
+                dropdownContent.style.display = "none";
+            }
+        });
+    });
+</script>
+</body>
+</html>

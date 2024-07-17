@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Details - LionBlog</title>
+    <link rel="stylesheet" th:href="@{/css/postdetail.css}">
+</head>
+<body>
+<!-- 헤더 영역 -->
+<div class="header">
+    <div class="logo">LionBlog</div>
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/login}" class="login-btn">로그인</a>
+    </div>
+    <div sec:authorize="isAuthenticated()" class="dropdown">
+        <a th:href="@{/postform}" class="post-btn">글 작성</a>
+        <a class="login-btn" id="dropdownBtn"><span th:text="${#authentication.name}"></span></a>
+        <div class="dropdown-content" id="dropdownContent">
+            <a th:href="@{'/@' + ${#authentication.name} + '/posts'}">내 블로그로 이동</a>
+            <a th:href="@{/drafts}">임시저장 목록</a>
+            <a th:href="@{/mypage}">마이페이지</a>
+            <a th:href="@{/logout}">로그아웃</a>
+        </div>
+    </div>
+</div>
+
+<!-- 게시물 상세 조회 영역 -->
+<div class="blog-container">
+    <div class="post-details">
+        <h2 th:text="${post.title}">Post Title</h2>
+        <div class="post-meta">
+            <span th:text="${post.author.username}">Author</span> |
+            <span th:text="${post.createdAt}">Date</span>
+        </div>
+        <div class="post-content">
+            <p th:utext="${post.content}">Post Content</p>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownBtn = document.getElementById("dropdownBtn");
+        const dropdownContent = document.getElementById("dropdownContent");
+
+        dropdownBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+
+        window.addEventListener("click", function (event) {
+            if (!event.target.matches("#dropdownBtn") && !event.target.closest(".dropdown")) {
+                dropdownContent.style.display = "none";
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

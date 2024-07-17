@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 탈퇴 - LionBlog</title>
+    <link rel="stylesheet" href="/css/deleteUser.css">
+</head>
+<body>
+<!-- 헤더 영역 -->
+<div class="header">
+    <div class="logo">LionBlog</div>
+</div>
+
+<div class="delete-account-container">
+    <form id="deleteForm" class="delete-form">
+        <h2>회원 탈퇴</h2>
+        <p>정말로 탈퇴하시겠습니까? 아래에 비밀번호를 입력해주세요.</p>
+
+        <div class="input-group">
+            <input type="hidden" id="userId" name="userId" th:value="${userId}">
+            <label for="password">비밀번호 : </label>
+            <input type="password" id="password" name="password" required>
+            <div id="passwordError" class="error"></div>
+        </div>
+
+        <button type="submit">탈퇴</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function validateForm(event) {
+            event.preventDefault(); // 기본 form submit 동작 방지
+
+            const password = document.getElementById('password').value;
+            const passwordError = document.getElementById('passwordError');
+
+            if (password.trim() === '') {
+                passwordError.textContent = '비밀번호를 입력해주세요.';
+                return;
+            }
+
+            // 회원 탈퇴 요청 보내기
+            const userId = document.getElementById('userId').value; // 사용자 ID 가져오기 (추가 가능)
+            fetch(`/api/users/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ password: password })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        alert('회원 탈퇴가 완료되었습니다.');
+                        // 로그아웃 요청 보내기
+                        fetch('/logout', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            }
+                        }).then(() => {
+                            window.location.href = '/'; // 메인 페이지로 이동
+                        });
+                    } else {
+                        passwordError.textContent = '비밀번호가 일치하지 않습니다.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('회원 탈퇴 중 오류가 발생했습니다.');
+                });
+        }
+
+        document.querySelector('.delete-form').addEventListener('submit', validateForm);
+    });
+</script>
+
+</body>
+</html>

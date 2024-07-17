@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - LionBlog</title>
+    <link rel="stylesheet" href="/css/userregform.css">
+</head>
+<body>
+<!-- 헤더 영역 -->
+<div class="header">
+    <div class="logo">LionBlog</div>
+</div>
+
+<div class="register-container">
+    <form id="updateForm" class="register-form" th:object="${user}" onsubmit="return validateForm()">
+        <h2>회원정보 수정</h2>
+        <input type="hidden" id="userId" name="userId" th:value="*{id}">
+
+        <div class="input-group">
+            <label for="username">아이디 : </label>
+            <span id="username" th:text="*{username}"></span>
+        </div>
+
+        <div class="input-group">
+            <label for="password">새 비밀번호 : </label>
+            <input type="password" id="password" name="password">
+        </div>
+
+        <div class="input-group">
+            <label for="confirm-password">비밀번호 확인 : </label>
+            <input type="password" id="confirm-password" name="confirmPassword" onblur="validatePassword()">
+            <div id="passwordMatchError" class="error"></div>
+        </div>
+
+        <div class="input-group">
+            <label for="name">이름 : </label>
+            <input type="text" id="name" name="name" th:value="*{name}" required>
+        </div>
+
+        <div class="input-group">
+            <label for="email">이메일 : </label>
+            <input type="email" id="email" name="email" th:value="*{email}" required onblur="checkEmail()">
+            <div id="emailError" class="error"></div>
+        </div>
+
+        <div class="input-group">
+            <label for="blogTitle">블로그 제목 : </label>
+            <input type="text" id="blogTitle" name="blogTitle" th:value="*{blogTitle}">
+        </div>
+
+        <button type="submit">수정 완료</button>
+    </form>
+</div>
+
+<script>
+    // 비밀번호 확인값 검증
+    function validatePassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirm-password").value; // confirm-password input 요소 값 가져오기
+        var passwordMatchError = document.getElementById("passwordMatchError");
+
+        if (password !== confirmPassword) {
+            passwordMatchError.textContent = '비밀번호가 일치하지 않습니다.';
+            document.getElementById("confirm-password").value = "";
+            return false;
+        } else {
+            passwordMatchError.textContent = '';
+            return true;
+        }
+    }
+
+    // 이메일 중복 체크
+    function checkEmail() {
+        const email = document.getElementById('email').value;
+        const originalEmail = document.getElementById('email').getAttribute('value'); // 원래 이메일 값
+        const emailError = document.getElementById('emailError');
+
+        if (email !== originalEmail) { // 변경된 경우에만 체크
+            fetch(`/api/users/check-email?email=${email}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        emailError.textContent = '이미 사용 중인 이메일입니다.';
+                    } else {
+                        emailError.textContent = '';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            emailError.textContent = ''; // 원래 이메일로 돌아왔을 때 에러 메시지 삭제
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // 폼 전체 유효성 검사 및 중복 체크 후 제출
+        function validateForm(event) {
+            event.preventDefault(); // 기본 form submit 동작 방지
+
+            var valid = true;
+
+            // 비밀번호 확인 검증
+            if (!validatePassword()) {
+                valid = false;
+            }
+
+            // 이메일 중복 체크 후 유효성 검사
+            checkEmail();
+
+            var emailError = document.getElementById('emailError');
+            if (emailError.textContent !== '') {
+                valid = false;
+            }
+
+            // 모든 유효성 검사가 통과되면 form 제출
+            if (valid) {
+                const userId = document.getElementById('userId').value;
+                const username = document.getElementById('username').innerText; // span의 내용을 가져옴
+                const password = document.getElementById('password').value;
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const blogTitle = document.getElementById('blogTitle').value;
+
+                const userDetails = {
+                    username: username,
+                    password: password,
+                    name: name,
+                    email: email,
+                    blogTitle: blogTitle
+                };
+
+                fetch(`/api/users/${userId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userDetails)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // 업데이트 성공 시 사용자에게 알림
+                        alert('회원정보가 성공적으로 수정되었습니다.');
+                        // /mypage로 이동
+                        window.location.href = '/mypage';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('회원정보 수정 중 오류가 발생했습니다.');
+                    });
+            }
+        }
+
+        // 폼 제출 이벤트 리스너
+        document.querySelector('.register-form').addEventListener('submit', validateForm);
+    });
+
+</script>
+
+</body>
+</html>

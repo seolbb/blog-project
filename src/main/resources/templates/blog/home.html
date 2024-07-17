@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>LionBlog</title>
+    <link rel="stylesheet" th:href="@{/css/lionblog.css}">
+</head>
+<body>
+<!-- 헤더 영역 -->
+<div class="header">
+    <div class="logo">LionBlog</div>
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/login}" class="login-btn">로그인</a>
+    </div>
+    <div sec:authorize="isAuthenticated()" class="dropdown">
+        <a th:href="@{/postform}" class="post-btn">글 작성</a>
+        <a class="login-btn" id="dropdownBtn"><span sec:authentication="name"></span></a>
+        <div class="dropdown-content" id="dropdownContent">
+            <a th:href="@{'/@' + ${#authentication.name} + '/posts'}">내 블로그로 이동</a>
+            <a th:href="@{/drafts}">임시저장 목록</a>
+            <a th:href="@{/mypage}">마이페이지</a>
+            <a th:href="@{/logout}">로그아웃</a>
+        </div>
+    </div>
+</div>
+
+<!-- 메인 콘텐츠 영역 -->
+<div class="main" id="posts">
+    <!-- 게시글 예시 -->
+    <div class="post"></div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dropdownBtn = document.getElementById("dropdownBtn");
+        const dropdownContent = document.getElementById("dropdownContent");
+
+        // dropdownBtn 요소가 있는 경우에만(로그인되어있는경우) 이벤트 리스너 추가
+        if (dropdownBtn) {
+            dropdownBtn.addEventListener("click", function(event) {
+                event.preventDefault();
+                dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+            });
+
+            window.addEventListener("click", function(event) {
+                if (!event.target.matches("#dropdownBtn") && !event.target.closest(".dropdown")) {
+                    dropdownContent.style.display = "none";
+                }
+            });
+        }
+
+        fetch(`/api/posts`)
+            .then(response => response.json())
+            .then(data => {
+                // 게시글 목록 HTML 생성
+                let html = '';
+                data.forEach(post => {
+                    html += `
+                        <div class="post">
+                            <h2><a href="/@${post.author.username}/posts/${post.id}">${post.title}</a></h2>
+                            <p>by ${post.author.username}</p>
+                        </div>
+                    `;
+                });
+
+                // 게시글 목록을 페이지에 삽입
+                document.getElementById('posts').innerHTML = html;
+            })
+            .catch(error => console.error('Error fetching posts:', error));
+    });
+</script>
+</body>
+</html>
