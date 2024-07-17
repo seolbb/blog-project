@@ -55,10 +55,16 @@
                 // 게시글 목록 HTML 생성
                 let html = '';
                 data.forEach(post => {
+                    // 이미지 URL 추출
+                    let thumbnailUrl = extractThumbnailUrl(post.content); // 이미지 URL 추출 함수 사용
+
                     html += `
                         <div class="post">
-                            <h2><a href="/@${post.authorUsername}/posts/${post.id}">${post.title}</a></h2>
-                            <p>by ${post.authorUsername}</p>
+                            ${thumbnailUrl ? `<div class="thumbnail"><img src="${thumbnailUrl}" alt="Thumbnail"></div>` : ''}
+                            <div class="post-content">
+                                <h2><a href="/@${post.authorUsername}/posts/${post.id}">${post.title}</a></h2>
+                                <p>by ${post.authorUsername}</p>
+                            </div>
                         </div>
                     `;
                 });
@@ -67,6 +73,22 @@
                 document.getElementById('posts').innerHTML = html;
             })
             .catch(error => console.error('Error fetching posts:', error));
+
+        // 썸네일 이미지 URL 추출 함수
+        function extractThumbnailUrl(content) {
+            // 이미지 태그를 추출하기 위한 정규 표현식
+            const imgRegex = /<img[^>]*src="([^"]+)"[^>]*>/g;
+            // content에서 첫 번째 이미지 태그를 찾음
+            const match = imgRegex.exec(content);
+
+            if (match) {
+                // 첫 번째 이미지 태그에서 src 속성의 값을 추출하여 반환
+                return match[1]; // 이미지 URL 반환
+            } else {
+                // 이미지가 없을 경우 null 반환
+                return null;
+            }
+        }
     });
 </script>
 </body>
