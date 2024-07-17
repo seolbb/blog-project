@@ -3,6 +3,7 @@ package org.example.blog_project.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.blog_project.domain.Post;
 import org.example.blog_project.domain.User;
+import org.example.blog_project.dto.PostDto;
 import org.example.blog_project.service.PostService;
 import org.example.blog_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,12 +70,12 @@ public class UserApiController {
 
     // 사용자 글 목록 조회
     @GetMapping("/{username}/posts")
-    public ResponseEntity<List<Post>> findAllPostsByUser(@PathVariable String username) {
+    public ResponseEntity<List<PostDto>> findAllPostsByUser(@PathVariable String username) {
         User user = userService.findByUsername(username);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        List<Post> posts = postService.findAllPostsByUser(user);
+        List<PostDto> posts = postService.findAllPostsByUser(user);
         return ResponseEntity.ok(posts);
     }
 

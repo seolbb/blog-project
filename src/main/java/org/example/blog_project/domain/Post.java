@@ -1,6 +1,7 @@
 package org.example.blog_project.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +35,7 @@ public class Post {
     @Column(name = "likes", nullable = false)
     private int likes = 0;
 
-//    @JsonIgnore // 글 목록 조회 시 순환 참조 문제를 해결하기 위한 애노테이션
+    @JsonIgnore // 글 목록 조회 시 순환 참조 문제를 해결하기 위한 애노테이션
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User author;

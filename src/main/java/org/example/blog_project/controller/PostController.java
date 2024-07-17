@@ -42,20 +42,8 @@ public class PostController {
     // 블로그 글쓰기
     @PostMapping("/post")
     public String createPost(@ModelAttribute PostDto postDto, Authentication authentication) {
-        // 현재 로그인한 사용자 정보 가져오기
         String username = authentication.getName();
-        User author = userService.findByUsername(username);
-
-        // 새로운 Post 객체 생성 및 설정
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setTags(postDto.getTags());
-        post.setContent(postDto.getContent());
-        post.setPublishStatus(postDto.isPublishStatus());
-        post.setAuthor(author);
-
-        postService.createPost(post);
-
+        postService.createPost(postDto, username);
         return "redirect:/@" + username + "/posts";
     }
 
@@ -68,8 +56,8 @@ public class PostController {
     // 게시글 상세 조회
     @GetMapping("@{username}/posts/{id}")
     public String getPostById(@PathVariable Long id, Model model){
-        Post postById = postService.findPostById(id);
-        model.addAttribute("post", postById);
+        PostDto postDto = postService.findPostById(id);
+        model.addAttribute("post", postDto);
         return "blog/postdetail";
     }
 

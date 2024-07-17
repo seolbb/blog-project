@@ -3,7 +3,9 @@ package org.example.blog_project.service;
 import lombok.RequiredArgsConstructor;
 import org.example.blog_project.domain.Post;
 import org.example.blog_project.domain.User;
+import org.example.blog_project.dto.PostDto;
 import org.example.blog_project.repository.PostRepository;
+import org.example.blog_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,37 +20,55 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     // 글 등록
     @Transactional
-    public Post createPost(Post post) {
+    public Post createPost(PostDto postDto, String username) {
+        User author = userRepository.findByUsername(username);
+        Post post = new Post();
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setPublishStatus(postDto.isPublishStatus());
+        post.setAuthor(author);
         return postRepository.save(post);
     }
 
     // 사용자 글 목록 보기
     @Transactional(readOnly = true)
-    public List<Post> findAllPostsByUser(User user) {
-        return postRepository.findAllByAuthor(user);
+    public List<PostDto> findAllPostsByUser(User user) {
+        List<Post> posts = postRepository.findAllByAuthor(user);
+        return posts.stream()
+                .map(post -> new PostDto(post)) // Entity를 DTO로 변환
+                .collect(Collectors.toList());
     }
 
     // 모든 글 목록 보기
-    @Transactional(readOnly = true)
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
+    public List<PostDto> findAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream()
+                .map(PostDto::new) // Entity를 DTO로 변환
+                .collect(Collectors.toList());
     }
 
     // 게시글 상세 조회
     @Transactional(readOnly = true)
-    public Post findPostById(Long id) {
-        return postRepository.findById(id).orElse(null);
+    public PostDto findPostById(Long id) {
+        Post post = postRepository.findById(id).orElse(null);
+        if (post != null) {
+            return new PostDto(post); // Entity를 DTO로 변환
+        }
+        return null;
     }
 
 
