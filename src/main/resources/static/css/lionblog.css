@@ -49,21 +49,26 @@ body {
     border-radius: 4px;
     box-sizing: border-box;
     position: relative; /* 상대 위치 설정 */
+    display: flex;
+    flex-direction: column; /* 내용을 세로로 배치 */
 }
 
-.post h2 {
+.post h2 a{
     margin-top: 0;
+    margin-bottom: 5px; /* 제목과 글쓴이 사이의 간격 조정 */
+    text-decoration: none;
+    color: black;
 }
 
 .post p {
-    margin-bottom: 0;
+    margin-bottom: 10px; /* 글쓴이와 다음 포스트 사이의 간격 조정 */
 }
 
 .thumbnail {
-    width: 100%;
-    height: 100%;
-    max-height: 200px;
-    object-fit: contain; /* 이미지 비율 유지하며 크기 조절 */
+    max-width: 100%;
+    height: auto;
+    max-height: 150px; /* 적당한 이미지 높이 */
+    object-fit: cover; /* 이미지가 요소에 맞게 채워지도록 설정 */
     border-radius: 4px;
     overflow: hidden;
 }
@@ -96,11 +101,10 @@ body {
     background-color: #f1f1f1;
 }
 
-.post h2 a {
-    text-decoration: none;
-    color: black;
+.post-title {
+    margin-top: auto;
 }
 
-.post h2 a:hover {
-    text-decoration: none;
+.post-author {
+    margin-bottom: 0; /* 글쓴이를 하단에 고정 */
 }

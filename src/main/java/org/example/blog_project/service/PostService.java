@@ -71,5 +71,31 @@ public class PostService {
         return null;
     }
 
+    // 조회수 증가
+    @Transactional
+    public void increaseViews(Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post != null) {
+            post.setViews(post.getViews() + 1);
+            postRepository.save(post);
+        } else {
+            throw new IllegalArgumentException("게시물이 존재하지 않습니다.");
+        }
+    }
+
+
+    // 게시글 삭제
+    @Transactional
+    public void deletePost(Long postId, String username) {
+        Post post = postRepository.findById(postId).orElse(null);
+
+        // 작성자 확인 로직
+        if (!(post.getAuthor().getUsername()).equals(username)) {
+            throw new SecurityException("삭제 권한이 없습니다.");
+        }
+
+        postRepository.delete(post);
+    }
+
 
 }

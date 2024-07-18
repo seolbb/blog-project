@@ -35,6 +35,10 @@
         <div class="post-content">
             <p th:utext="${post.content}">Post Content</p>
         </div>
+        <!-- 삭제 버튼 영역 -->
+        <div th:if="${#authentication.name} == ${post.authorUsername}">
+            <button class="delete-btn" id="deleteBtn" th:data-post-id="${post.id}" th:data-username="${post.authorUsername}">글 삭제</button>
+        </div>
     </div>
 </div>
 
@@ -42,6 +46,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const dropdownBtn = document.getElementById("dropdownBtn");
         const dropdownContent = document.getElementById("dropdownContent");
+        const deleteBtn = document.getElementById("deleteBtn");
 
         dropdownBtn.addEventListener("click", function (event) {
             event.preventDefault();
@@ -54,6 +59,33 @@
             }
         });
 
+        if (deleteBtn) {
+            deleteBtn.addEventListener("click", function () {
+                const postId = deleteBtn.getAttribute("data-post-id");
+                const username = deleteBtn.getAttribute("data-username");
+
+                if (confirm("정말로 삭제하시겠습니까?")) {
+                    fetch(`/api/posts/${postId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // 삭제 성공
+                                window.location.href = `/@${username}/posts`; // 사용자 블로그 홈으로 리다이렉트
+                            } else {
+                                // 삭제 실패
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('글 삭제 중 오류가 발생했습니다.');
+                        });
+                }
+            });
+        }
     });
 </script>
 </body>

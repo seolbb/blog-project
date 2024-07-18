@@ -60,10 +60,10 @@
 
                     html += `
                         <div class="post">
-                            ${thumbnailUrl ? `<div class="thumbnail"><img src="${thumbnailUrl}" alt="Thumbnail"></div>` : ''}
+                            ${thumbnailUrl ? `<div class="thumbnail"><img src="${thumbnailUrl}"></div>` : ''}
                             <div class="post-content">
-                                <h2><a href="/@${post.authorUsername}/posts/${post.id}">${post.title}</a></h2>
-                                <p>by ${post.authorUsername}</p>
+                                <h2 class="post-title"><a href="/@${post.authorUsername}/posts/${post.id}">${post.title}</a></h2>
+                                <p class="post-author">by ${post.authorUsername}</p>
                             </div>
                         </div>
                     `;

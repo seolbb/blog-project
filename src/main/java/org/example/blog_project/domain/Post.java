@@ -35,6 +35,9 @@ public class Post {
     @Column(name = "likes", nullable = false)
     private int likes = 0;
 
+    @Column(name = "views", nullable = false)
+    private int views = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User author;

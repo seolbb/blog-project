@@ -41,7 +41,7 @@ public class PostController {
 
     // 블로그 글쓰기
     @PostMapping("/post")
-    public String createPost(@ModelAttribute PostDto postDto, Authentication authentication) {
+    public String createPost(@ModelAttribute("postDto") PostDto postDto, Authentication authentication) {
         String username = authentication.getName();
         postService.createPost(postDto, username);
         return "redirect:/@" + username + "/posts";
@@ -57,6 +57,8 @@ public class PostController {
     @GetMapping("@{username}/posts/{id}")
     public String getPostById(@PathVariable Long id, Model model){
         PostDto postDto = postService.findPostById(id);
+        // 조회수 증가 메서드 호출
+        postService.increaseViews(id);
         model.addAttribute("post", postDto);
         return "blog/postdetail";
     }

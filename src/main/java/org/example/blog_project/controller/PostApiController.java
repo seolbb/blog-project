@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,13 @@ public class PostApiController {
     public ResponseEntity<List<PostDto>> findAllPosts(){
         List<PostDto> posts = postService.findAllPosts();
         return ResponseEntity.ok(posts);
+    }
+
+    // 게시물 삭제
+    @DeleteMapping("/{postId}")
+    public void deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        postService.deletePost(postId, username);
     }
 
 

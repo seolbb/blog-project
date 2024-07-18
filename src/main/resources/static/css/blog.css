@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f2f2f2;
 }
 
 .header {
@@ -19,50 +20,74 @@ body {
     font-weight: bold;
 }
 
-.login-btn {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    cursor: pointer; /* 커서 스타일 추가 */
-}
-
+.login-btn,
 .post-btn {
     padding: 8px 16px;
     background-color: #4CAF50;
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    cursor: pointer; /* 커서 스타일 추가 */
+    cursor: pointer;
 }
 
-.login-btn:hover {
+.login-btn:hover,
+.post-btn:hover {
     background-color: #45a049;
 }
 
 .main {
-    display: block;
+    margin: 20px; /* 메인 콘텐츠의 마진 설정 */
 }
 
 .post {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #f2f2f2;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .post h2 {
     margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
 }
 
-.post p {
-    margin-bottom: 0;
+.post h2 a {
+    color: #333;
+    text-decoration: none;
 }
 
-/* 드롭다운 스타일 */
+.post h2 a:hover {
+    text-decoration: underline;
+}
+
+.post-meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.post-content {
+    line-height: 1.6;
+    color: #333;
+}
+
+.thumbnail img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    max-height: 200px; /* 이미지의 최대 높이를 설정하여 너무 크게 나오지 않도록 함 */
+    object-fit: cover; /* 이미지가 요소에 맞게 채워지도록 설정 */
+}
+
+.thumbnail {
+    margin-bottom: 10px;
+    overflow: hidden; /* 이미지가 넘칠 경우를 대비하여 오버플로우 제어 */
+}
+
+/* 드롭다운 메뉴 스타일 */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -71,13 +96,13 @@ body {
 .dropdown-content {
     display: none;
     position: absolute;
-    right: 0; /* 드롭다운을 오른쪽 정렬하여 화면을 넘어가지 않게 합니다 */
+    right: 0;
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-    border-radius: 4px; /* 드롭다운 모서리를 둥글게 만듭니다 */
-    overflow: hidden; /* 드롭다운 내용이 잘리는 것을 방지합니다 */
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .dropdown-content a {
@@ -89,30 +114,4 @@ body {
 
 .dropdown-content a:hover {
     background-color: #f1f1f1;
-}
-
-nav ul {
-    list-style-type: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-nav li {
-    margin-right: 20px;
-}
-
-nav a {
-    color: #333;
-    text-decoration: none;
-}
-
-/* 게시글 제목 링크 스타일 */
-.post h2 a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: black; /* 링크 색상을 원하는 색상으로 설정 */
-}
-
-.post h2 a:hover {
-    text-decoration: none; /* 마우스 호버 시 밑줄 표시 */
 }
