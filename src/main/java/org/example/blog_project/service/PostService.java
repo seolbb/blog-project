@@ -44,20 +44,32 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    // 사용자 글 목록 보기
+    // 출간된 모든 글 목록 조회
+    @Transactional(readOnly = true)
+    public List<PostDto> findAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream()
+                .filter(post -> post.isPublishStatus()) // 출간된 글
+                .map(PostDto::new) // Entity를 DTO로 변환
+                .collect(Collectors.toList());
+    }
+
+    // 사용자의 출간된 글 목록 조회
     @Transactional(readOnly = true)
     public List<PostDto> findAllPostsByUser(User user) {
         List<Post> posts = postRepository.findAllByAuthor(user);
         return posts.stream()
+                .filter(post -> post.isPublishStatus()) // 출간된 글
                 .map(post -> new PostDto(post)) // Entity를 DTO로 변환
                 .collect(Collectors.toList());
     }
 
-    // 모든 글 목록 보기
-    public List<PostDto> findAllPosts() {
-        List<Post> posts = postRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<PostDto> findUnpublishedPostsByUser(User user) {
+        List<Post> posts = postRepository.findAllByAuthor(user);
         return posts.stream()
-                .map(PostDto::new) // Entity를 DTO로 변환
+                .filter(post -> !post.isPublishStatus()) // 임시저장된 글
+                .map(post -> new PostDto(post)) // Entity를 DTO로 변환
                 .collect(Collectors.toList());
     }
 

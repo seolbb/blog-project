@@ -53,6 +53,12 @@ public class PostController {
         return "blog/blog";
     }
 
+    // 임시저장 목록 이동
+    @GetMapping("/drafts")
+    public String drafts() {
+        return "blog/drafts";
+    }
+
     // 게시글 상세 조회
     @GetMapping("@{username}/posts/{id}")
     public String getPostById(@PathVariable Long id, Model model){

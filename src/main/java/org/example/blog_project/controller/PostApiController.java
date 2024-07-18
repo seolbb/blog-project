@@ -21,12 +21,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostApiController {
     private final PostService postService;
+    private final UserService userService;
 
     // 게시글 목록 조회
     @GetMapping
     public ResponseEntity<List<PostDto>> findAllPosts(){
         List<PostDto> posts = postService.findAllPosts();
         return ResponseEntity.ok(posts);
+    }
+
+    // 임시저장 글 목록 조회
+    @GetMapping("/drafts")
+    public ResponseEntity<List<PostDto>> findAllUnpublishedPosts(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername());
+        String username = userDetails.getUsername();
+        List<PostDto> unpublishedPosts = postService.findUnpublishedPostsByUser(user);
+        return ResponseEntity.ok(unpublishedPosts);
     }
 
     // 게시물 삭제

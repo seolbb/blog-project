@@ -1,8 +1,9 @@
-/* 기본 스타일링 */
+/* 기본 스타일 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f0f0f0;
 }
 
 .header {
@@ -17,6 +18,8 @@ body {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
+    text-decoration: none;
+    color: #fff;
 }
 
 .login-btn,
@@ -27,6 +30,7 @@ body {
     text-decoration: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .login-btn:hover,
@@ -34,77 +38,101 @@ body {
     background-color: #45a049;
 }
 
-.main {
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.post {
-    width: calc(33.33% - 20px);
-    margin: 10px;
-    padding: 10px;
-    background-color: #f2f2f2;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    position: relative; /* 상대 위치 설정 */
-    display: flex;
-    flex-direction: column; /* 내용을 세로로 배치 */
-}
-
-.post h2 a{
-    margin-top: 0;
-    margin-bottom: 5px; /* 제목과 글쓴이 사이의 간격 조정 */
-    text-decoration: none;
-    color: black;
-}
-
-.post p {
-    margin-bottom: 10px; /* 글쓴이와 다음 포스트 사이의 간격 조정 */
-}
-
-.thumbnail {
-    max-width: 100%;
-    height: auto;
-    max-height: 150px; /* 적당한 이미지 높이 */
-    object-fit: cover; /* 이미지가 요소에 맞게 채워지도록 설정 */
-    border-radius: 4px;
-    overflow: hidden;
-}
-
 .dropdown {
     position: relative;
-    display: inline-block;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
+    background-color: #fff;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    right: 0;
     border-radius: 4px;
-    overflow: hidden;
+    padding: 8px 0;
 }
 
 .dropdown-content a {
-    color: black;
+    color: #333;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    transition: background-color 0.3s ease;
 }
 
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color: #f0f0f0;
+}
+
+.main {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.post {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(25% - 20px);
+    flex: 1 0 25%;
+    max-width: calc(25% - 20px);
+    box-sizing: border-box;
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+}
+
+.post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.post-content {
+    margin-left: 10px;
+}
+
+.post-title a {
+    color: #000; /* 제목 링크의 색상을 검정으로 설정 */
+    text-decoration: none; /* 링크에 밑줄 제거 */
+    transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+    color: #555; /* 호버 시 색상 약간 어둡게 변경 */
 }
 
 .post-title {
-    margin-top: auto;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
 .post-author {
-    margin-bottom: 0; /* 글쓴이를 하단에 고정 */
+    color: #777;
+}
+
+/* 반응형 디자인 조정 */
+@media (max-width: 1200px) {
+    .post {
+        width: calc(33.333% - 20px); /* 작은 화면에서는 한 줄에 세 개의 게시물 */
+        max-width: calc(33.333% - 20px);
+        flex: 1 0 33.333%;
+    }
+}
+
+@media (max-width: 768px) {
+    .post {
+        width: calc(50% - 20px); /* 모바일 화면에서는 한 줄에 두 개의 게시물 */
+        max-width: calc(50% - 20px);
+        flex: 1 0 50%;
+    }
 }

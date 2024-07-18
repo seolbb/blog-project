@@ -17,7 +17,7 @@
         <a class="login-btn" id="dropdownBtn"><span th:text="${#authentication.name}"></span></a>
         <div class="dropdown-content" id="dropdownContent">
             <a th:href="@{'/@' + ${#authentication.name} + '/posts'}">내 블로그로 이동</a>
-            <a th:href="@{/drafts}">임시저장 목록</a>
+            <a th:href="@{/drafts}">임시 글</a>
             <a th:href="@{/mypage}">마이페이지</a>
             <a th:href="@{/logout}">로그아웃</a>
         </div>
@@ -30,7 +30,7 @@
         <h2 th:text="${post.title}">Post Title</h2>
         <div class="post-meta">
             <span th:text="${post.authorUsername}">Author</span> |
-            <span th:text="${post.createdAt}">Date</span>
+            <span th:text="${#temporals.format(post.createdAt, 'yyyy년 MM월 dd일')}">Date</span>
         </div>
         <div class="post-content">
             <p th:utext="${post.content}">Post Content</p>

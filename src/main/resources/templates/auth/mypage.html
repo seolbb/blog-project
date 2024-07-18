@@ -16,7 +16,7 @@
         <a class="login-btn" id="dropdownBtn"><span sec:authentication="name"></span></a>
         <div class="dropdown-content" id="dropdownContent">
             <a th:href="@{'/@' + ${#authentication.name}}">내 블로그로 이동</a>
-            <a th:href="@{/drafts}">임시저장 목록</a>
+            <a th:href="@{/drafts}">임시 글</a>
             <a th:href="@{/logout}">로그아웃</a>
         </div>
     </div>

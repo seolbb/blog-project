@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f0f0f0;
 }
 
 .header {
@@ -19,13 +20,14 @@ body {
     font-weight: bold;
 }
 
+.post-btn,
 .login-btn {
     padding: 8px 16px;
     background-color: #4CAF50;
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    cursor: pointer; /* 커서 스타일 추가 */
+    cursor: pointer;
 }
 
 .login-btn:hover {
@@ -33,11 +35,17 @@ body {
 }
 
 .blog-container {
+    max-width: 800px;
+    margin: 20px auto;
     padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 .blog-container h2 {
     margin-bottom: 20px;
+    color: #333;
 }
 
 ul {
@@ -72,6 +80,7 @@ ul li {
 .dropdown-content {
     display: none;
     position: absolute;
+    top: 100%; /* 드롭다운을 텍스트 아래에 배치합니다 */
     right: 0; /* 드롭다운을 오른쪽 정렬하여 화면을 넘어가지 않게 합니다 */
     background-color: #f9f9f9;
     min-width: 160px;
@@ -90,4 +99,78 @@ ul li {
 
 .dropdown-content a:hover {
     background-color: #f1f1f1;
+}
+
+/* 게시물 스타일 */
+.main {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    flex-wrap: wrap;
+}
+
+.post {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(25% - 20px);
+    flex: 1 0 25%;
+    max-width: calc(25% - 20px);
+    box-sizing: border-box;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.post-content {
+    margin-left: 10px;
+}
+
+.post-title a {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+    color: #555;
+}
+
+.post-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.post-author {
+    color: #777;
+}
+
+/* 반응형 디자인 조정 */
+@media (max-width: 1200px) {
+    .post {
+        width: calc(33.333% - 20px); /* 작은 화면에서는 한 줄에 세 개의 게시물 */
+        max-width: calc(33.333% - 20px);
+        flex: 1 0 33.333%;
+    }
+}
+
+@media (max-width: 768px) {
+    .post {
+        width: calc(50% - 20px); /* 모바일 화면에서는 한 줄에 두 개의 게시물 */
+        max-width: calc(50% - 20px);
+        flex: 1 0 50%;
+    }
 }
