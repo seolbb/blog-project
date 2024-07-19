@@ -18,6 +18,11 @@ body {
     font-weight: bold;
 }
 
+.logo a {
+    color: white;
+    text-decoration: none;
+}
+
 .form-container {
     max-width: 800px;
     margin: 20px auto; /* 상단과 하단에 간격 추가 */

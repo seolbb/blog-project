@@ -20,6 +20,11 @@ body {
     font-weight: bold;
 }
 
+.logo a {
+    color: white;
+    text-decoration: none;
+}
+
 .post-btn,
 .login-btn {
     padding: 8px 16px;

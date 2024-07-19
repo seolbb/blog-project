@@ -24,6 +24,11 @@ body {
     font-weight: bold;
 }
 
+.logo a {
+    color: white;
+    text-decoration: none;
+}
+
 .register-container {
     width: 100%;
     max-width: 500px;

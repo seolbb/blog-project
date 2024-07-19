@@ -8,7 +8,7 @@
 <body>
 <!-- 헤더 영역 -->
 <div class="header">
-    <div class="logo">LionBlog</div>
+    <div class="logo"><a th:href="@{/}">LionBlog</a></div>
     <div sec:authorize="isAnonymous()">
         <a th:href="@{/login}" class="login-btn">로그인</a>
     </div>
